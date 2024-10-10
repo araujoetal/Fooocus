@@ -1,4 +1,5 @@
 import psutil
+import torch_xla.core.xla_model as xm
 from enum import Enum
 from ldm_patched.modules.args_parser import args
 import ldm_patched.modules.utils
@@ -87,7 +88,7 @@ def get_torch_device():
         if is_intel_xpu():
             return torch.device("xpu")
         else:
-            return torch.device(torch.cuda.current_device())
+            return xm.xla_device()
 
 def get_total_memory(dev=None, torch_total_too=False):
     global directml_enabled
